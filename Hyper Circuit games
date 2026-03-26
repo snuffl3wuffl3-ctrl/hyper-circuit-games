@@ -281,3 +281,61 @@ overlay.addEventListener("click", e => {
 });
 
 loadGames();
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Space Clicker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at top, #1d2438 0, #020617 60%);
+      color: #f9fafb;
+      font-family: system-ui, sans-serif;
+    }
+    h1 {
+      margin-bottom: 0.5rem;
+    }
+    #score {
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+    }
+    button {
+      padding: 0.8rem 1.6rem;
+      font-size: 1rem;
+      border-radius: 999px;
+      border: none;
+      background: #6366f1;
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      transition: transform 0.1s ease;
+    }
+    button:active {
+      transform: scale(0.96);
+    }
+  </style>
+</head>
+<body>
+  <h1>Space Clicker</h1>
+  <div id="score">Score: 0</div>
+  <button id="clickBtn">Click for points</button>
+
+  <script>
+    let score = 0;
+    const scoreEl = document.getElementById("score");
+    const btn = document.getElementById("clickBtn");
+
+    btn.addEventListener("click", () => {
+      score++;
+      scoreEl.textContent = "Score: " + score;
+    });
+  </script>
+</body>
+</html>
