@@ -184,3 +184,19 @@ main {
   cursor: pointer;
   font-size: 1.1rem;
 }
+[
+  {
+    "id": "clicker",
+    "title": "Space Clicker",
+    "category": "Arcade",
+    "thumb": "https://via.placeholder.com/320x180/111827/ffffff?text=Space+Clicker",
+    "url": "games/clicker/index.html"
+  },
+  {
+    "id": "external-demo",
+    "title": "External Demo Game",
+    "category": "Puzzle",
+    "thumb": "https://via.placeholder.com/320x180/0f172a/ffffff?text=Demo+Game",
+    "url": "https://example.com"
+  }
+]
