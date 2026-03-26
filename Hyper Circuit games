@@ -200,3 +200,84 @@ main {
     "url": "https://example.com"
   }
 ]
+const gameGrid = document.getElementById("gameGrid");
+const searchInput = document.getElementById("searchInput");
+const categoryFilter = document.getElementById("categoryFilter");
+const overlay = document.getElementById("overlay");
+const gameFrame = document.getElementById("gameFrame");
+const closeOverlay = document.getElementById("closeOverlay");
+
+let games = [];
+
+async function loadGames() {
+  const res = await fetch("games.json");
+  games = await res.json();
+  populateCategories();
+  renderGames();
+}
+
+function populateCategories() {
+  const categories = Array.from(new Set(games.map(g => g.category))).sort();
+  categories.forEach(cat => {
+    const opt = document.createElement("option");
+    opt.value = cat;
+    opt.textContent = cat;
+    categoryFilter.appendChild(opt);
+  });
+}
+
+function renderGames() {
+  const query = searchInput.value.toLowerCase();
+  const cat = categoryFilter.value;
+
+  const filtered = games.filter(g => {
+    const matchesText =
+      g.title.toLowerCase().includes(query) ||
+      g.category.toLowerCase().includes(query);
+    const matchesCat = cat === "all" || g.category === cat;
+    return matchesText && matchesCat;
+  });
+
+  gameGrid.innerHTML = filtered
+    .map(
+      g => `
+      <article class="game-card" data-url="${g.url}">
+        <div class="game-thumb" style="background-image:url('${g.thumb}')"></div>
+        <div class="game-body">
+          <div class="game-title">${g.title}</div>
+          <div class="game-meta">
+            <span class="category-pill">${g.category}</span>
+            <span>Play ▶</span>
+          </div>
+        </div>
+      </article>
+    `
+    )
+    .join("");
+
+  document.querySelectorAll(".game-card").forEach(card => {
+    card.addEventListener("click", () => {
+      const url = card.getAttribute("data-url");
+      openGame(url);
+    });
+  });
+}
+
+function openGame(url) {
+  gameFrame.src = url;
+  overlay.classList.remove("hidden");
+}
+
+function closeGame() {
+  gameFrame.src = "";
+  overlay.classList.add("hidden");
+}
+
+searchInput.addEventListener("input", renderGames);
+categoryFilter.addEventListener("change", renderGames);
+closeOverlay.addEventListener("click", closeGame);
+overlay.addEventListener("click", e => {
+  if (e.target === overlay) closeGame();
+});
+
+loadGames();
